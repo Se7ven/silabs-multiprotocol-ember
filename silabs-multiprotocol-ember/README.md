@@ -9,6 +9,9 @@ Home Assistant Yellow, Home Assistant SkyConnect, and Home Assistant Connect ZBT
 
 ## About
 
+This addon is based on official SiliconLabs Zigbee/OpenThread Multiprotocol Add-on 
+from Home assistant dev team. 
+
 This add-on allows you to use Zigbee and OpenThread protocol simultaneous on a
 single Silicon Labs based radio. The radio needs the RCP Multi-PAN firmware
 installed to support multiple IEEE 802.15.4 Personal Area Networks (PAN). The
