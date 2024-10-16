@@ -1,0 +1,4 @@
+#!/bin/sh
+
+test -e /var/run/socat-zigbeed-tcp
+exit

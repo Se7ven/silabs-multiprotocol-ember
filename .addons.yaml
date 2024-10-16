@@ -1,0 +1,7 @@
+---
+channel: stable
+addons:
+  adguard:
+    repository: silabs-multiprotocol-ember/silabs-multiprotocol-ember
+    target: silabs-multiprotocol-ember
+    image: ghcr.io/hassio-addons/adguard/{arch}

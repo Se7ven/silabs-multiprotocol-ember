@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start EmberZNet Zigbee Daemon
+# ==============================================================================
+mkdir -p /data/zigbeed && cd /data/zigbeed || bashio::exit.nok "Could not change to zigbeed working directory"
+
+bashio::log.info "Starting zigbeed..."
+exec /usr/local/bin/zigbeed --radio-url "spinel+cpc://cpcd_0?iid=1&iid-list=0"

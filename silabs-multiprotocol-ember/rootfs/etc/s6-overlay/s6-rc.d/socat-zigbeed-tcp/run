@@ -1,0 +1,18 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start socat TCP client for Zigbeed daemon
+# ==============================================================================
+
+ezsp_listen_port="$(bashio::addon.port 9999)"
+
+# If user port is not set, listen on local interface only
+if ! bashio::var.has_value "${ezsp_listen_port}"; then
+    ezsp_listen_port="9999"
+fi
+
+bashio::log.info "Starting socat TCP client for Zigbeed daemon..."
+exec  s6-notifyoncheck -d -s 300 -w 300 \
+      "/usr/bin/socat" -d -d \
+      -L /var/run/socat-zigbeed-tcp \
+      pty,link=/tmp/ttyZigbeeNCP,rawer,unlink-close=0 \
+      tcp-l:${ezsp_listen_port},reuseaddr,fork
