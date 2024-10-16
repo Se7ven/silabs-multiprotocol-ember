@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.2
+- Fix SimplicitySDK version
+
 ## 1.0.1
 - Update SimplicitySDK to v2024.6.2
 
