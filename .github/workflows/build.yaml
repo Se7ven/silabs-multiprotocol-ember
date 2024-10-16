@@ -1,7 +1,8 @@
 name: BUILD
 
 on:
-  push:
+  release:
+    type: [published]
   pull_request:
 
 jobs:
