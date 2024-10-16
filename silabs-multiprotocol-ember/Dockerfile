@@ -110,7 +110,7 @@ ENV PATH="/usr/src/slc_cli/:$PATH"
 
 RUN \
    set -x \
-    && git clone --depth 1 -b v2024.6.1-0 \
+    && git clone --depth 1 -b ${GECKO_SDK_VERSION} \
     https://github.com/SiliconLabs/simplicity_sdk.git
 
 #RUN \
