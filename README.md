@@ -24,6 +24,10 @@ Supports firmwares v7.4.x.x and v8.0.x.x.
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
 
+### Thanks
+Inspired by https://github.com/Nerivec/silabs-multiprotocol-builder
+
+Using https://github.com/SiliconLabs/simplicity_sdk
 
 #### Support
 If you would like to help support further development of my `SiliconLabs Zigbee/OpenThread Multiprotocol` projects consider buying me a coffee!
