@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1-pre1",
+  "version": "1.0.1",
   "slug": "silabs_multiprotocol_ember",
   "name": "Silicon Labs Multiprotocol with Ember",
   "description": "Zigbee and OpenThread multiprotocol add-on",
