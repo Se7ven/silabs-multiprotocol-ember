@@ -1,10 +1,13 @@
 name: BUILD
 
 on:
-  release:
-    type: [published]
+#  release:
+#    type: [published]
   pull_request:
-
+  push:
+    tags:
+      - '*'
+    
 jobs:
   variables:
     runs-on: ubuntu-latest
