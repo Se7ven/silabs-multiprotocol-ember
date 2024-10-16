@@ -23,3 +23,9 @@ Supports firmwares v7.4.x.x and v8.0.x.x.
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
+
+
+#### Support
+If you would like to help support further development of my `SiliconLabs Zigbee/OpenThread Multiprotocol` projects consider buying me a coffee!
+
+<a href="https://buymeacoffee.com/se7venmx" target="_blank"><img src="img/blue-button.png" alt="Buy Me A Coffee" height="41" width="174"></a>
