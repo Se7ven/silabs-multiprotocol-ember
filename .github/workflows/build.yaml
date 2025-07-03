@@ -48,11 +48,11 @@ jobs:
       matrix:
         arch:
           - arch: aarch64
-            from: ghcr.io/home-assistant/aarch64-base-debian:bullseye
+            from: ghcr.io/home-assistant/aarch64-base-debian:bookworm
           - arch: armv7
-            from: ghcr.io/home-assistant/armv7-base-debian:bullseye
+            from: ghcr.io/home-assistant/armv7-base-debian:bookworm
           - arch: amd64
-            from: ghcr.io/home-assistant/amd64-base-debian:bullseye
+            from: ghcr.io/home-assistant/amd64-base-debian:bookworm
     steps:
       - uses: actions/checkout@v3
       - name: set version
