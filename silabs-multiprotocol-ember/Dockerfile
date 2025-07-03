@@ -1,6 +1,6 @@
 ARG BUILD_FROM
 ARG BUILD_ARCH
-FROM --platform=linux/amd64 ubuntu:24.04 AS cross-builder-base
+FROM --platform=linux/amd64 debian:bookworm AS cross-builder-base
 
 ENV \
     LANG="C.UTF-8" \
@@ -77,11 +77,10 @@ ARG CPCD_VERSION
 
 RUN \
     set -x \
-    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        cmake \
-       "libmbedtls-dev" \
-       "libmbedtls14t64" \
+       "libmbedtls-dev:${DEBIAN_ARCH}" \
+       "libmbedtls14t64:${DEBIAN_ARCH}" \
     && git clone --depth 1 -b "${CPCD_VERSION}" \
        https://github.com/SiliconLabs/cpc-daemon.git \
     && mkdir cpc-daemon/build && cd cpc-daemon/build \
@@ -101,9 +100,11 @@ RUN \
        python3 \
        python3-jinja2 \
        python3-pip \
-       openjdk-21-jdk \
+#       openjdk-21-jre \
        git-lfs \
        unzip \
+    && curl -o https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb \
+    && dpkg -i jdk-21_linux-x64_bin.deb \
     && curl -O https://www.silabs.com/documents/login/software/slc_cli_linux.zip \
     && unzip slc_cli_linux.zip \
     && cd slc_cli/ && chmod +x slc
@@ -199,8 +200,8 @@ RUN \
     && (apt-get update || true) \
     # Install npm/nodejs for WebUI manually to avoid systemd getting pulled in \
     && apt-get install -y --no-install-recommends \
-       nodejs \
-       npm \
+#       nodejs \
+#       npm \
        iproute2 \
        patch \
        python3 \
