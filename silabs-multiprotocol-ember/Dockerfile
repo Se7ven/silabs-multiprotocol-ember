@@ -200,14 +200,14 @@ RUN \
     && (apt-get update || true) \
     # Install npm/nodejs for WebUI manually to avoid systemd getting pulled in \
     && apt-get install -y --no-install-recommends \
-#       nodejs \
-#       npm \
+       nodejs \
+       npm \
        iproute2 \
        patch \
        python3 \
-       python3-full \
        python3-dev \
        python3-pip \
+       python3-attr \
        python3-aiohttp \
        python3-cryptography \
        python3-yarl \
