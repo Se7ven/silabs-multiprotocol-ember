@@ -103,7 +103,7 @@ RUN \
 #       openjdk-21-jre \
        git-lfs \
        unzip \
-    && curl -o https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb \
+    && curl -O https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb \
     && dpkg -i jdk-21_linux-x64_bin.deb \
     && curl -O https://www.silabs.com/documents/login/software/slc_cli_linux.zip \
     && unzip slc_cli_linux.zip \
