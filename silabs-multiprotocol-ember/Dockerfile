@@ -80,7 +80,7 @@ RUN \
     && apt-get install -y --no-install-recommends \
        cmake \
        "libmbedtls-dev:${DEBIAN_ARCH}" \
-       "libmbedtls14t64:${DEBIAN_ARCH}" \
+       "libmbedtls14:${DEBIAN_ARCH}" \
     && git clone --depth 1 -b "${CPCD_VERSION}" \
        https://github.com/SiliconLabs/cpc-daemon.git \
     && mkdir cpc-daemon/build && cd cpc-daemon/build \
