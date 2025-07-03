@@ -37,7 +37,7 @@ jobs:
 
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
       packages: write
@@ -81,6 +81,7 @@ jobs:
         run: |
           docker run --rm --privileged \
               -v /home/runner/.docker:/root/.docker \
+              --ulimit memlock=100000000000:100000000000 \
               -v /run/docker.sock:/run/docker.sock:rw \
               -v $(pwd)/silabs-multiprotocol-ember:/data homeassistant/amd64-builder --${{ matrix.arch.arch }} -t /data \
               ${{ env.DOCKER_ARGS }}
