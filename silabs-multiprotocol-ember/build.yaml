@@ -4,6 +4,6 @@ build_from:
   armv7: ghcr.io/home-assistant/armv7-base-debian:bullseye
   amd64: ghcr.io/home-assistant/amd64-base-debian:bullseye
 args:
-  CPCD_VERSION: v4.5.2
-  GECKO_SDK_VERSION: v2024.6.2
+  CPCD_VERSION: v4.7.0
+  GECKO_SDK_VERSION: v2025.6.0
   UNIVERSAL_SILABS_FLASHER: 0.0.22

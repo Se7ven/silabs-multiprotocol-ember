@@ -16,8 +16,8 @@ jobs:
       ADDON_LIST: ${{ env.ADDON_LIST }}
       DOCKER_ARGS: ${{ env.DOCKER_ARGS }}
     env:
-      CPCD_VERSION: v4.5.2
-      GECKO_SDK_VERSION: v2024.6.1-0
+      CPCD_VERSION: v4.7.0
+      GECKO_SDK_VERSION: v2025.6.0
       UNIVERSAL_SILABS_FLASHER: 0.0.22
     steps:
       - uses: actions/checkout@v3

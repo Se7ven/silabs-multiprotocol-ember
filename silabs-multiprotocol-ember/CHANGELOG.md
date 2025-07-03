@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3
+
+Updates:
+- simplicity sdk -> v2025.6.0
+- cpcd -> v4.7.0
+
+Changes:
+- Build image changed from Debian to Ubuntu
+
 ## 1.0.2
 - Fix SimplicitySDK version
 

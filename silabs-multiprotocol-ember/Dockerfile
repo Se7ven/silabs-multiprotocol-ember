@@ -1,6 +1,6 @@
 ARG BUILD_FROM
 ARG BUILD_ARCH
-FROM --platform=linux/amd64 debian:bullseye AS cross-builder-base
+FROM --platform=linux/amd64 ubuntu:24.04 AS cross-builder-base
 
 ENV \
     LANG="C.UTF-8" \
@@ -19,7 +19,8 @@ RUN \
        curl \
        ca-certificates \
        build-essential \
-       git
+       git \
+       software-properties-common
 
 FROM --platform=linux/amd64 cross-builder-base AS cross-builder-armv7
 
@@ -49,7 +50,7 @@ ENV ZIGBEED_ARCH=zigbee_arm64
 RUN \
     set -x \
     && dpkg --add-architecture arm64 \
-    && apt-get update \
+    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        crossbuild-essential-arm64
 
@@ -65,7 +66,7 @@ ENV DEBIAN_ARCH=amd64 \
 RUN \
     set -x \
     && dpkg --add-architecture amd64 \
-    && apt-get update \
+    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        crossbuild-essential-amd64
 
@@ -76,10 +77,11 @@ ARG CPCD_VERSION
 
 RUN \
     set -x \
+    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        cmake \
-       "libmbedtls-dev:${DEBIAN_ARCH}" \
-       "libmbedtls12:${DEBIAN_ARCH}" \
+       "libmbedtls-dev" \
+       "libmbedtls14t64" \
     && git clone --depth 1 -b "${CPCD_VERSION}" \
        https://github.com/SiliconLabs/cpc-daemon.git \
     && mkdir cpc-daemon/build && cd cpc-daemon/build \
@@ -99,7 +101,7 @@ RUN \
        python3 \
        python3-jinja2 \
        python3-pip \
-       openjdk-17-jre \
+       openjdk-21-jdk \
        git-lfs \
        unzip \
     && curl -O https://www.silabs.com/documents/login/software/slc_cli_linux.zip \
@@ -136,10 +138,10 @@ RUN \
        --with="${ZIGBEED_ARCH},${SLC_ARCH}" \
        --sdk=$(pwd)/simplicity_sdk \
        --without=zigbee_recommended_linux_arch \
-       --project-file=$(pwd)/simplicity_sdk/protocol/zigbee/app/zigbeed/zigbeed.slcp \
-       --export-destination=$(pwd)/simplicity_sdk/protocol/zigbee/app/zigbeed/output \
+       --project-file=$(pwd)/simplicity_sdk/protocol/zigbee/app/projects/zigbeed/zigbeed.slcp \
+       --export-destination=$(pwd)/simplicity_sdk/protocol/zigbee/app/projects/zigbeed/output \
        --copy-proj-sources \
-  && cd simplicity_sdk/protocol/zigbee/app/zigbeed/output \
+  && cd simplicity_sdk/protocol/zigbee/app/projects/zigbeed/output \
 ##  && patch -p1 < /usr/src/0001-Use-TCP-socket-instead-of-serial-port-main-app.patch \
   && make -f zigbeed.Makefile \
         AR="${DEBIAN_CROSS_PREFIX}-ar" \
@@ -158,7 +160,7 @@ RUN \
     set -x \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-       libmbedtls12 \
+       libmbedtls14 \
        socat \
        supervisor \
     && rm -rf /var/lib/apt/lists/* \
@@ -176,7 +178,7 @@ COPY --from=cpcd-builder /usr/local/ /usr/local/
 ENV BORDER_ROUTING=1
 ENV BACKBONE_ROUTER=1
 ENV WEB_GUI=1
-ENV DOCKER 1
+ENV DOCKER=1
 
 COPY otbr-patches/0001-Avoid-writing-to-system-console.patch /usr/src
 COPY otbr-patches/0001-rest-support-erasing-all-persistent-info-1908.patch /usr/src
@@ -185,10 +187,10 @@ COPY otbr-patches/0003-mdns-update-mDNSResponder-to-1790.80.10.patch /usr/src
 COPY otbr-patches/0004-mdns-add-Linux-specific-patches.patch /usr/src
 
 # Required and installed during build (script/bootstrap), could be removed
-ENV OTBR_BUILD_DEPS build-essential ninja-build cmake wget ca-certificates \
+ENV OTBR_BUILD_DEPS="build-essential ninja-build cmake wget ca-certificates \
   libreadline-dev libncurses-dev libcpputest-dev libdbus-1-dev libavahi-common-dev \
   libavahi-client-dev libboost-dev libboost-filesystem-dev libboost-system-dev \
-  libnetfilter-queue-dev
+  libnetfilter-queue-dev"
 
 # Build OTBR natively from Gecko SDK sources
 WORKDIR /usr/src
@@ -202,13 +204,14 @@ RUN \
        iproute2 \
        patch \
        python3 \
+       python3-full \
        python3-dev \
        python3-pip \
        python3-aiohttp \
        python3-cryptography \
        python3-yarl \
        lsb-release \
-       netcat \
+       netcat-traditional \
        sudo \
     && cd ot-br-posix \
 #    && patch -p1 < /usr/src/0001-Avoid-writing-to-system-console.patch \
@@ -253,7 +256,7 @@ RUN \
         && cd build/otbr/ \
         && ninja \
         && ninja install) \
-    && pip install universal-silabs-flasher==${UNIVERSAL_SILABS_FLASHER} \
+    && pip install universal-silabs-flasher==${UNIVERSAL_SILABS_FLASHER} --break-system-packages \
     && apt-get purge -y --auto-remove \
        build-essential \
        patch \
@@ -267,7 +270,7 @@ RUN \
     && rm -rf /usr/src/*
 #
 COPY --from=zigbeed-builder \
-     /usr/src/simplicity_sdk/protocol/zigbee/app/zigbeed/output/build/debug/zigbeed \
+     /usr/src/simplicity_sdk/protocol/zigbee/app/projects/zigbeed/output/build/debug/zigbeed \
      /usr/local/bin
 #
 RUN ldconfig && touch /accept_silabs_msla
