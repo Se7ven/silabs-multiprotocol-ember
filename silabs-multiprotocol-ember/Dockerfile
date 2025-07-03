@@ -13,7 +13,7 @@ WORKDIR /usr/src
 # hadolint ignore=DL3009
 RUN \
     set -x \
-    && apt-get update \
+    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        bash \
        curl \
@@ -34,7 +34,7 @@ ENV ZIGBEED_ARCH=zigbee_arm32
 RUN \
     set -x \
     && dpkg --add-architecture armhf \
-    && apt-get update \
+    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        crossbuild-essential-armhf
 
@@ -158,7 +158,7 @@ ARG UNIVERSAL_SILABS_FLASHER
 LABEL org.opencontainers.image.source=https://github.com/Se7ven/silabs-multiprotocol-ember
 RUN \
     set -x \
-    && apt-get update \
+    && (apt-get update || true) \
     && apt-get install -y --no-install-recommends \
        libmbedtls14 \
        socat \
@@ -196,7 +196,7 @@ ENV OTBR_BUILD_DEPS="build-essential ninja-build cmake wget ca-certificates \
 WORKDIR /usr/src
 RUN \
     set -x \
-    && apt-get update \
+    && (apt-get update || true) \
     # Install npm/nodejs for WebUI manually to avoid systemd getting pulled in \
     && apt-get install -y --no-install-recommends \
        nodejs \
