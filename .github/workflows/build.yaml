@@ -10,14 +10,14 @@ on:
     
 jobs:
   variables:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-arm
     outputs:
       ARCH_LIST: ${{ env.ARCH_LIST }}
       ADDON_LIST: ${{ env.ADDON_LIST }}
       DOCKER_ARGS: ${{ env.DOCKER_ARGS }}
     env:
-      CPCD_VERSION: v4.5.2
-      GECKO_SDK_VERSION: v2024.6.1-0
+      CPCD_VERSION: v4.7.0
+      GECKO_SDK_VERSION: v2025.6.0
       UNIVERSAL_SILABS_FLASHER: 0.0.22
     steps:
       - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
 
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: buildjet-8vcpu-ubuntu-2204
     permissions:
       contents: read
       packages: write
@@ -48,11 +48,11 @@ jobs:
       matrix:
         arch:
           - arch: aarch64
-            from: ghcr.io/home-assistant/aarch64-base-debian:bullseye
+            from: ghcr.io/home-assistant/aarch64-base-debian:bookworm
           - arch: armv7
-            from: ghcr.io/home-assistant/armv7-base-debian:bullseye
+            from: ghcr.io/home-assistant/armv7-base-debian:bookworm
           - arch: amd64
-            from: ghcr.io/home-assistant/amd64-base-debian:bullseye
+            from: ghcr.io/home-assistant/amd64-base-debian:bookworm
     steps:
       - uses: actions/checkout@v3
       - name: set version
@@ -74,10 +74,15 @@ jobs:
         with:
           username: ${{ vars.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+#      - uses: docker/setup-qemu-action@v3
+#        with:
+#          platforms: linux/arm64,linux/amd64,linux/armv7
+#          image: tonistiigi/binfmt:latest
       - name: Build
         run: |
           docker run --rm --privileged \
               -v /home/runner/.docker:/root/.docker \
+              --ulimit memlock=100000000000:100000000000 \
               -v /run/docker.sock:/run/docker.sock:rw \
               -v $(pwd)/silabs-multiprotocol-ember:/data homeassistant/amd64-builder --${{ matrix.arch.arch }} -t /data \
               ${{ env.DOCKER_ARGS }}
