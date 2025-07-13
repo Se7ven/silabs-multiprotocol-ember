@@ -10,7 +10,7 @@ on:
     
 jobs:
   variables:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     outputs:
       ARCH_LIST: ${{ env.ARCH_LIST }}
       ADDON_LIST: ${{ env.ADDON_LIST }}
