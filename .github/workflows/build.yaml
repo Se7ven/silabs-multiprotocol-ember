@@ -76,7 +76,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - uses: docker/setup-qemu-action@v3
         with:
-          image: tonistiigi/binfmt:qemu-v7.0.0-28
+          platforms: linux/arm64,linux/amd64
+          image: tonistiigi/binfmt:latest
       - name: Build
         run: |
           docker run --rm --privileged \
