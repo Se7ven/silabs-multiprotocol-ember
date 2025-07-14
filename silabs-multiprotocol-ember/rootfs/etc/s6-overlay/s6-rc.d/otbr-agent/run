@@ -97,7 +97,7 @@ echo "${otbr_rest_listen}" > /tmp/otbr-agent-rest-api
 echo "${otbr_rest_listen_port}" >> /tmp/otbr-agent-rest-api
 
 bashio::log.info "Starting otbr-agent..."
-exec s6-notifyoncheck -d -s 300 -w 300 -n 0 \
+exec s6-notifyoncheck -d -s 300 -w 300 -n 0 -c "nc -z localhost ${otbr_rest_listen_port}" \
     "/usr/sbin/otbr-agent" -I ${thread_if} -B "${backbone_if}" \
         --rest-listen-address "${otbr_rest_listen}" \
         -d${otbr_log_level_int} -v \
