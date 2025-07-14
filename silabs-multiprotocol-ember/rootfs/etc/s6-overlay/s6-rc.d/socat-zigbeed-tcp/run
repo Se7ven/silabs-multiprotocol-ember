@@ -11,8 +11,7 @@ if ! bashio::var.has_value "${ezsp_listen_port}"; then
 fi
 
 bashio::log.info "Starting socat TCP client for Zigbeed daemon..."
-exec  s6-notifyoncheck -d -s 300 -w 300 \
-      "/usr/bin/socat" -d \
+exec  "/usr/bin/socat" -d \
       -L /var/run/socat-zigbeed-tcp \
       pty,link=/tmp/ttyZigbeeNCP,rawer,unlink-close=0 \
       tcp-l:${ezsp_listen_port},reuseaddr,fork
