@@ -8,5 +8,6 @@ declare network_device
 network_device=$(bashio::config 'network_device')
 
 bashio::log.info "Starting socat TCP client for CPC daemon..."
-exec "/usr/bin/socat" -d pty,raw,echo=0,link=/tmp/ttyCPC,ignoreeof \
+exec s6-notifyoncheck -d -s 300 -w 300 \
+    "/usr/bin/socat" -d pty,raw,echo=0,link=/tmp/ttyCPC,ignoreeof \
     tcp-connect:${network_device}

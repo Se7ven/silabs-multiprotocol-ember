@@ -7,4 +7,5 @@ declare otbr_web_port
 
 otbr_web_port="$(bashio::addon.port 8080)"
 
-exec /usr/sbin/otbr-web -I wpan0 -d6 -p "${otbr_web_port}"
+exec exec s6-notifyoncheck -d -s 300 -w 300 -n 0 -c "nc -z localhost ${otbr_web_port}" \
+     /usr/sbin/otbr-web -I wpan0 -d6 -p "${otbr_web_port}"
