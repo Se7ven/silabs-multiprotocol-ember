@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4
+
+Updates:
+- simplicity sdk -> v2025.6.1
+- cpcd -> v4.7.0
+
 ## 1.0.3
 
 Updates:

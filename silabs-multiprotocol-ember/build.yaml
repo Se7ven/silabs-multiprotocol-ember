@@ -5,5 +5,5 @@ build_from:
   amd64: ghcr.io/home-assistant/amd64-base-debian:bookworm
 args:
   CPCD_VERSION: v4.7.0
-  GECKO_SDK_VERSION: v2025.6.0
+  GECKO_SDK_VERSION: v2025.6.1
   UNIVERSAL_SILABS_FLASHER: 0.0.22
